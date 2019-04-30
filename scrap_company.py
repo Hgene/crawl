@@ -8,17 +8,17 @@ import ssl
 context = ssl._create_unverified_context()
 
 
-def get_links(url,count):
+def get_links(url,count, Img_Str):
     driver = webdriver.Chrome('./chromedriver')
     driver.get(url)
 
     for c_i in range(count):
         time.sleep(2)
-        driver.execute_script("window.scrollTo(0,document.body.scrollHeight);")
+        driver.execute_script("window.scrollTo(0,document.body.scrollHeight*0.85);")
 
     htmlSource = driver.page_source
     soup = bs(htmlSource, 'html.parser')
-    site = soup.find_all("a",{'class':"_3nieWa4ZIUcTVI7sgou_yg _2QwW0jQxbJim_0hhPp5o15"})
+    site = soup.find_all("a",{'class':Img_Str})
     driver.quit()
 
     links=[]
@@ -54,7 +54,8 @@ if __name__ == '__main__':
     count = int(count)
     print("'======  Page down : ",count,'======')
 
-    links = get_links(url,count)
+    Img_Str = "ProjectCardLink_link__3iR_4 CommonProjectCard_image__6--Wu" #Only this part you can change
+    links = get_links(url,count, Img_Str)
 
     info = pd.DataFrame(columns = ['company','mail','phone','url'])
 
